@@ -12,13 +12,18 @@ This document provides an overview of the Delivery API endpoints, including deta
    git clone https://github.com/anthonyvii27/delivery-api
    ```
 
-2. Run the command to start the containerized environment:
+2. Change to the repository directory:
+   ```shell
+   cd delivery-api
+   ```
+   
+3. Run the command to start the containerized environment:
    ```shell
    make compose-up-v2
    ```
 
-3. The API will be running on port `:8080` on your computer.
-4. Optionally, in the root of this repository, there is a file named `delivery-api.http` that provides an easy-to-use interface for executing the implemented endpoints.
+4. The API will be running on port `:8080` on your computer.
+5. Optionally, in the root of this repository, there is a file named `delivery-api.http` that provides an easy-to-use interface for executing the implemented endpoints.
 
 ---
 
