@@ -14,6 +14,6 @@ public class CreateSaleResponse: BaseResponse
     public CreateSaleResponse(Sale sale) : this(true, string.Empty, sale)
     { }
     
-    public CreateSaleResponse(string message) : this(false, message, null)
+    public CreateSaleResponse(string message) : this(false, message, new Sale())
     { }
 }

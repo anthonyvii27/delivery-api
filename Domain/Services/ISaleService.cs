@@ -6,9 +6,8 @@ namespace basic_delivery_api.Domain.Services
     public interface ISaleService
     {
         Task<IEnumerable<Sale>> ListAsync();
-        Task<Sale> FindByIdAsync(int id);
-        Task<SaleResponse> Create(Sale sale);
-        Task<SaleResponse> Update(int id, Sale sale);
-        Task<SaleResponse> Delete(int id);
+        Task<Sale?> FindByIdAsync(int id);
+        Task<CreateSaleResponse> Create(Sale sale);
+        Task<DeleteSaleResponse> Delete(int id);
     }
 }

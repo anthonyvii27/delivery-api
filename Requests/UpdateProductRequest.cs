@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using basic_delivery_api.Domain.Models;
 
-namespace basic_delivery_api.Request;
+namespace basic_delivery_api.Requests;
 
 public class UpdateProductRequest
 {

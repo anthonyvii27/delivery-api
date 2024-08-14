@@ -29,12 +29,6 @@ namespace basic_delivery_api.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public void Update(Sale sale)
-        {
-            _context.Sales.Update(sale);
-            _context.SaveChangesAsync().Wait();
-        }
-
         public void Remove(Sale sale)
         {
             _context.Sales.Remove(sale);

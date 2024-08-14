@@ -14,6 +14,6 @@ public class UpdateProductResponse: BaseResponse
     public UpdateProductResponse(Product product) : this(true, string.Empty, product)
     { }
     
-    public UpdateProductResponse(string message) : this(false, message, null)
+    public UpdateProductResponse(string message) : this(false, message, new Product())
     { }
 }

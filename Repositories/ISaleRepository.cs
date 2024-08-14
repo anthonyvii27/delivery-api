@@ -5,8 +5,7 @@ namespace basic_delivery_api.Repositories;
 public interface ISaleRepository
 {
     Task<IEnumerable<Sale>> ListAsync();
-    Task<Sale> FindByIdAsync(int id);
+    Task<Sale?> FindByIdAsync(int id);
     Task AddAsync(Sale sale);
-    void Update(Sale sale);
     void Remove(Sale sale);
 }

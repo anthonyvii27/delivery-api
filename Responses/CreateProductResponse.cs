@@ -14,6 +14,6 @@ public class CreateProductResponse: BaseResponse
     public CreateProductResponse(Product product) : this(true, string.Empty, product)
     { }
     
-    public CreateProductResponse(string message) : this(false, message, null)
+    public CreateProductResponse(string message) : this(false, message, new Product())
     { }
 }

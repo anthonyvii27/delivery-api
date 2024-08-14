@@ -1,6 +1,4 @@
-using basic_delivery_api.Request;
-
-namespace basic_delivery_api.Request;
+namespace basic_delivery_api.Requests;
 
 public class SaleRequest
 {

@@ -1,7 +1,7 @@
 using AutoMapper;
 using basic_delivery_api.Domain.Models;
 using basic_delivery_api.Extensions;
-using basic_delivery_api.Request;
+using basic_delivery_api.Requests;
 
 namespace basic_delivery_api.Mapping;
 
@@ -21,8 +21,6 @@ public class AutoMapperProfile: Profile
             .ForMember(src => src.Product, opt => opt.MapFrom(src => src.Product))
             .ReverseMap();
         CreateMap<CreateSaleRequest, Sale>();
-        CreateMap<CreateSaleItemRequest, SaleItem>();
-        CreateMap<UpdateSaleRequest, Sale>();
         CreateMap<CreateSaleItemRequest, SaleItem>();
     }
 }

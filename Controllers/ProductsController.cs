@@ -1,7 +1,7 @@
 using AutoMapper;
 using basic_delivery_api.Domain.Models;
 using basic_delivery_api.Domain.Services;
-using basic_delivery_api.Request;
+using basic_delivery_api.Requests;
 using basic_delivery_api.Extensions;
 using Microsoft.AspNetCore.Mvc;
 

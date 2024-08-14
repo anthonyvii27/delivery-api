@@ -6,7 +6,7 @@ namespace basic_delivery_api.Domain.Services
     public interface IProductService
     {
         Task<IEnumerable<Product>> ListAsync();
-        Task<Product> FindByIdAsync(int id);
+        Task<Product?> FindByIdAsync(int id);
         Task<CreateProductResponse> Create(Product product);
         Task<UpdateProductResponse> Update(int id, Product product);
         Task<DeleteProductResponse> Delete(int id);

@@ -1,36 +1,46 @@
 using System.Text.Json;
+using basic_delivery_api.Domain.Models;
 using basic_delivery_api.Domain.Services;
+using basic_delivery_api.Responses;
+
+namespace basic_delivery_api.Services;
 
 public class ShippingService : IShippingService
 {
     private const string StoreCity = "Rio de Janeiro";
     private const string StoreState = "RJ";
 
-    private readonly HttpClient _httpClient;
+    private const decimal LocalShippingCost = 10.00m;
+    private const decimal StateShippingCost = 20.00m;
+    private const decimal DefaultShippingCost = 40.00m;
 
-    public ShippingService(HttpClient httpClient)
+    private readonly HttpClient _httpClient;
+    private readonly string _brasilApiBaseUrl;
+
+    public ShippingService(HttpClient httpClient, IConfiguration configuration)
     {
         _httpClient = httpClient;
+        _brasilApiBaseUrl = configuration["BrasilApi:BaseUrl"];
     }
 
     public async Task<decimal> CalculateShippingCostAsync(string zipCode)
     {
         var location = await GetLocationByZipCodeAsync(zipCode);
         if (location == null)
-            return 40.00m;
+            return DefaultShippingCost;
 
         if (location.State == StoreState)
         {
             if (location.City == StoreCity)
-                return 10.00m;
-            return 20.00m;
+                return LocalShippingCost;
+            return StateShippingCost;
         }
-        return 40.00m;
+        return DefaultShippingCost;
     }
 
-    private async Task<Location> GetLocationByZipCodeAsync(string zipCode)
+    private async Task<Location?> GetLocationByZipCodeAsync(string zipCode)
     {
-        var response = await _httpClient.GetAsync($"https://brasilapi.com.br/api/cep/v2/{zipCode}");
+        var response = await _httpClient.GetAsync($"{_brasilApiBaseUrl}{zipCode}");
 
         if (!response.IsSuccessStatusCode)
             return null;
@@ -47,16 +57,4 @@ public class ShippingService : IShippingService
             State = locationResponse.State
         };
     }
-}
-
-public class Location
-{
-    public string City { get; set; }
-    public string State { get; set; }
-}
-
-public class LocationResponse
-{
-    public string City { get; set; }
-    public string State { get; set; }
 }

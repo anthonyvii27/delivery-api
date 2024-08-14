@@ -14,6 +14,6 @@ public class DeleteProductResponse: BaseResponse
     public DeleteProductResponse(Product product) : this(true, string.Empty, product)
     { }
     
-    public DeleteProductResponse(string message) : this(false, message, null)
+    public DeleteProductResponse(string message) : this(false, message, new Product())
     { }
 }
