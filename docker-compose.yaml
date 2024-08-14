@@ -1,13 +1,24 @@
-version: '3'
-
+version: '3.8'
 services:
-  postgres:
-    image: postgres
-    container_name: postgres
-    restart: always
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=db;Database=delivery;Username=admin;Password=admin
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: delivery
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: admin
-      POSTGRES_USER: admin
-      POSTGRES_DB: delivery
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
