@@ -197,7 +197,7 @@ This document provides an overview of the Delivery API endpoints, including deta
 
 #### `GET /sales`
 
-**Summary**: Retrieves all sales.
+**Summary**: Retrieves all sales (historic).
 
 **Responses**:
 
@@ -323,7 +323,7 @@ This document provides an overview of the Delivery API endpoints, including deta
 
 #### `DELETE /sales/{id}`
 
-**Summary**: Deletes a sale by its ID.
+**Summary**: Deletes (cancel) a sale by its ID.
 
 **Parameters**:
 
