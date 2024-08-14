@@ -45,7 +45,8 @@ This document provides an overview of the Delivery API endpoints, including deta
     {
       "id": 1,
       "name": "Product Name",
-      "unitOfMeasurement": "Unit"
+      "unitOfMeasurement": "UN",
+      "price": 9.99
     }
   ]
   ```
@@ -65,11 +66,12 @@ This document provides an overview of the Delivery API endpoints, including deta
 
 - **200 OK**
   ```json
-  {
-    "id": 1,
-    "name": "Product Name",
-    "unitOfMeasurement": "Unit"
-  }
+   {
+     "id": 1,
+     "name": "Product Name",
+     "unitOfMeasurement": "UN",
+     "price": 9.99
+   }
   ```
 
 - **404 Not Found**
@@ -89,7 +91,8 @@ This document provides an overview of the Delivery API endpoints, including deta
 ```json
 {
   "name": "Product Name",
-  "unitOfMeasurement": "Unit"
+  "unitOfMeasurement": "Unit",
+  "price": 9.99
 }
 ```
 
@@ -100,7 +103,8 @@ This document provides an overview of the Delivery API endpoints, including deta
   {
     "id": 1,
     "name": "Product Name",
-    "unitOfMeasurement": "Unit"
+    "unitOfMeasurement": "Unit",
+    "price": 9.99
   }
   ```
 
@@ -126,7 +130,8 @@ This document provides an overview of the Delivery API endpoints, including deta
 ```json
 {
   "name": "Updated Product Name",
-  "unitOfMeasurement": "Updated Unit"
+  "unitOfMeasurement": "Updated Unit",
+  "price": 9.99
 }
 ```
 
@@ -137,7 +142,8 @@ This document provides an overview of the Delivery API endpoints, including deta
   {
     "id": 1,
     "name": "Updated Product Name",
-    "unitOfMeasurement": "Updated Unit"
+    "unitOfMeasurement": "Updated Unit",
+    "price": 9.99
   }
   ```
 
@@ -213,12 +219,7 @@ This document provides an overview of the Delivery API endpoints, including deta
           "id": 1,
           "productId": 1,
           "quantity": 2,
-          "unitPrice": 50.00,
-          "product": {
-            "id": 1,
-            "name": "Product Name",
-            "unitOfMeasurement": "Unit"
-          }
+          "unitPrice": 50.00
         }
       ]
     }
@@ -249,12 +250,7 @@ This document provides an overview of the Delivery API endpoints, including deta
         "id": 1,
         "productId": 1,
         "quantity": 2,
-        "unitPrice": 50.00,
-        "product": {
-          "id": 1,
-          "name": "Product Name",
-          "unitOfMeasurement": "Unit"
-        }
+        "unitPrice": 50.00
       }
     ]
   }
@@ -277,12 +273,11 @@ This document provides an overview of the Delivery API endpoints, including deta
 ```json
 {
   "saleDate": "2024-08-14T00:00:00Z",
-  "zipCode": "12345-678",
+  "zipCode": "12345678",
   "saleItems": [
     {
       "productId": 1,
-      "quantity": 2,
-      "unitPrice": 50.00
+      "quantity": 2
     }
   ]
 }
@@ -305,7 +300,8 @@ This document provides an overview of the Delivery API endpoints, including deta
         "product": {
           "id": 1,
           "name": "Product Name",
-          "unitOfMeasurement": "Unit"
+          "unitOfMeasurement": "Unit",
+          "price": 50.00
         }
       }
     ]

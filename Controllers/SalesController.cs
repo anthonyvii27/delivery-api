@@ -10,15 +10,11 @@ namespace basic_delivery_api.Controllers
     public class SalesController : BaseApiController
     {
         private readonly ISaleService _saleService;
-        private readonly IShippingService _shippingService;
-        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
-        public SalesController(ISaleService saleService, IShippingService shippingService, IProductService productService, IMapper mapper)
+        public SalesController(ISaleService saleService, IMapper mapper)
         {
             _saleService = saleService;
-            _shippingService = shippingService;
-            _productService = productService;
             _mapper = mapper;
         }
 
@@ -61,10 +57,8 @@ namespace basic_delivery_api.Controllers
             if (body.SaleItems == null || !body.SaleItems.Any())
                 return BadRequest(new { Message = "At least one SaleItem is required." });
 
-            // Prepare Sale object
             var sale = _mapper.Map<Sale>(body);
 
-            // Delegate the responsibility of setting unit prices and calculating total amount to the service
             var result = await _saleService.Create(sale, body.ZipCode);
 
             if (!result.Success)

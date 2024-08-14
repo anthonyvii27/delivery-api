@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "name": "New Product",
-  "unitOfMeasurement": "1",
+  "unitOfMeasurement": 1,
   "price": 29.99
 }
 
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 {
   "name": "Updated Product",
-  "unitOfMeasurement": "2",
+  "unitOfMeasurement": 2,
   "price": 39.99
 }
 
@@ -52,22 +52,20 @@ Content-Type: application/json
 
 {
   "saleDate": "2024-08-15T14:30:00Z",
-  "zipCode": "22021-010",
+  "zipCode": "22021001",
   "saleItems": [
     {
-      "productId": 12,
-      "quantity": 2,
-      "unitPrice": 120.00
+      "productId": 1,
+      "quantity": 2
     },
     {
-      "productId": 1,
-      "quantity": 1,
-      "unitPrice": 30.00
+      "productId": 2,
+      "quantity": 5
     }
   ]
 }
 
 ### Delete Sale
 @deleteSaleId = 1
-DELETE http://localhost:5183/api/v1/Products/{{deleteSaleId}}
+DELETE http://localhost:5183/api/v1/Sales/{{deleteSaleId}}
 Accept: application/json

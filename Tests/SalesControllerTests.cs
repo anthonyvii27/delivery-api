@@ -15,15 +15,11 @@ public class SalesControllerTests
 {
     private readonly SalesController _controller;
     private readonly Mock<ISaleService> _mockSaleService;
-    private readonly Mock<IShippingService> _mockShippingService;
-    private readonly Mock<IProductService> _mockProductService;
     private readonly IMapper _mapper;
 
     public SalesControllerTests()
     {
         _mockSaleService = new Mock<ISaleService>();
-        _mockShippingService = new Mock<IShippingService>();
-        _mockProductService = new Mock<IProductService>();
 
         var config = new MapperConfiguration(cfg =>
         {
@@ -43,7 +39,7 @@ public class SalesControllerTests
         });
 
         _mapper = config.CreateMapper();
-        _controller = new SalesController(_mockSaleService.Object, _mockShippingService.Object, _mockProductService.Object, _mapper);
+        _controller = new SalesController(_mockSaleService.Object, _mapper);
     }
 
     [Fact]
