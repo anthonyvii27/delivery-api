@@ -80,4 +80,14 @@ public class ProductService : IProductService
             return new DeleteProductResponse($"An error occurred when deleting the product: {ex.Message}");
         }
     }
+    
+    public async Task<bool> HasAssociatedSalesAsync(int id)
+    {
+        return await _productRepository.HasAssociatedSalesAsync(id);
+    }
+    
+    public async Task<IEnumerable<Product>> GetProductsByIdsAsync(IEnumerable<int> productIds)
+    {
+        return await _productRepository.GetProductsByIdsAsync(productIds);
+    }
 }

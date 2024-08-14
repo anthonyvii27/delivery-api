@@ -1,28 +1,40 @@
 using basic_delivery_api.Persistence.Contexts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace basic_delivery_api.Controllers;
-
-public class HealthCheckController : BaseApiController
+namespace basic_delivery_api.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public HealthCheckController(AppDbContext context)
+    public class HealthCheckController : BaseApiController
     {
-        _context = context;
-    }
+        private readonly AppDbContext _context;
+        private readonly ILogger<HealthCheckController> _logger;
 
-    [HttpGet("health")]
-    public async Task<IActionResult> GetHealthStatus()
-    {
-        try
+        public HealthCheckController(AppDbContext context, ILogger<HealthCheckController> logger)
         {
-            await _context.Database.CanConnectAsync();
-            return Ok("Database connection is healthy.");
+            _context = context;
+            _logger = logger;
         }
-        catch (Exception ex)
+
+        [HttpGet("health")]
+        public async Task<IActionResult> GetHealthStatus()
         {
-            return StatusCode(500, $"Database connection failed: {ex.Message}");
+            try
+            {
+                var canConnect = await _context.Database.CanConnectAsync();
+                if (canConnect)
+                {
+                    return Ok("Database connection is healthy.");
+                }
+                else
+                {
+                    _logger.LogWarning("Database connection isn't available.");
+                    return StatusCode(503, "Database connection isn't available.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Database connection failed.");
+                return StatusCode(500, "An error occurred while checking the database connection.");
+            }
         }
     }
 }

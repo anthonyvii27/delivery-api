@@ -71,5 +71,24 @@ namespace basic_delivery_api.Persistence.Repositories
                 throw new Exception("An error occurred while removing the product.", ex);
             }
         }
+        
+        public async Task<bool> HasAssociatedSalesAsync(int id)
+        {
+            try
+            {
+                return await _context.SaleItems.AnyAsync(si => si.ProductId == id);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while checking for associated sale items.", ex);
+            }
+        }
+        
+        public async Task<IEnumerable<Product>> GetProductsByIdsAsync(IEnumerable<int> productIds)
+        {
+            return await _context.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToListAsync();
+        }
     }
 }

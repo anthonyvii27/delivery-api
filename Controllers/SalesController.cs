@@ -10,49 +10,86 @@ namespace basic_delivery_api.Controllers
     public class SalesController : BaseApiController
     {
         private readonly ISaleService _saleService;
+        private readonly IShippingService _shippingService;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
-        public SalesController(ISaleService saleService, IMapper mapper)
+        public SalesController(ISaleService saleService, IShippingService shippingService, IProductService productService, IMapper mapper)
         {
             _saleService = saleService;
+            _shippingService = shippingService;
+            _productService = productService;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Retrieves all sales.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SaleDto>>> GetAll()
         {
             var sales = await _saleService.ListAsync();
-            var response = _mapper.Map<IEnumerable<SaleDto>>(sales);
-            return Ok(response);
+            var saleDtos = _mapper.Map<IEnumerable<SaleDto>>(sales);
+            return Ok(saleDtos);
         }
-        
+
+        /// <summary>
+        /// Retrieves a sale by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the sale to retrieve.</param>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<SaleDto>> GetById(int id)
         {
             var sale = await _saleService.FindByIdAsync(id);
             if (sale == null)
-                return NotFound($"Sale with ID {id} not found.");
+                return NotFound(new { Message = $"Sale with ID {id} not found." });
 
             var saleDto = _mapper.Map<SaleDto>(sale);
             return Ok(saleDto);
         }
 
+        /// <summary>
+        /// Creates a new sale.
+        /// </summary>
+        /// <param name="body">The sale data to create.</param>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSaleDto body)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
+            
+            if (body.SaleItems == null || !body.SaleItems.Any())
+                return BadRequest(new { Message = "At least one SaleItem is required." });
 
-            var sale = _mapper.Map<CreateSaleDto, Sale>(body);
+            var productIds = body.SaleItems.Select(si => si.ProductId).Distinct();
+    
+            var products = await _productService.GetProductsByIdsAsync(productIds);
+            var productIdsInDb = products.Select(p => p.Id);
+
+            if (productIds.Except(productIdsInDb).Any())
+                return BadRequest(new { Message = "One or more products in the SaleItems do not exist." });
+
+            var shippingCost = await _shippingService.CalculateShippingCostAsync(body.ZipCode);
+
+            var sale = _mapper.Map<Sale>(body);
+            sale.ShippingCost = shippingCost;
+
+            // Cria a venda
             var result = await _saleService.Create(sale);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return BadRequest(new { Message = result.Message });
 
-            var saleResponse = _mapper.Map<Sale, SaleDto>(result.Sale);
-            return Ok(saleResponse);
+            var saleResponse = _mapper.Map<SaleDto>(result.Sale);
+            return CreatedAtAction(nameof(GetById), new { id = result.Sale.Id }, saleResponse);
         }
 
+
+        /// <summary>
+        /// Updates an existing sale.
+        /// </summary>
+        /// <param name="id">The ID of the sale to update.</param>
+        /// <param name="body">The updated sale data.</param>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateSaleDto body)
         {
@@ -61,25 +98,36 @@ namespace basic_delivery_api.Controllers
 
             var currentSale = await _saleService.FindByIdAsync(id);
             if (currentSale == null)
-                return NotFound($"Sale with ID {id} not found.");
-
+                return NotFound(new { Message = $"Sale with ID {id} not found." });
+            
             _mapper.Map(body, currentSale);
+
+            if (body.ZipCode != currentSale.ZipCode)
+            {
+                currentSale.ZipCode = body.ZipCode;
+                currentSale.ShippingCost = await _shippingService.CalculateShippingCostAsync(body.ZipCode);
+            }
+
             var result = await _saleService.Update(id, currentSale);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return BadRequest(new { Message = result.Message });
 
             var saleResponse = _mapper.Map<SaleDto>(result.Sale);
             return Ok(saleResponse);
         }
 
+        /// <summary>
+        /// Deletes a sale by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the sale to delete.</param>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _saleService.Delete(id);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return BadRequest(new { Message = result.Message });
 
             return NoContent();
         }

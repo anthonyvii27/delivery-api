@@ -16,21 +16,23 @@ namespace basic_delivery_api.Persistence.Contexts
             base.OnModelCreating(builder);
 
             builder.Entity<Product>()
-                .ToTable("products")
+                .ToTable("products");
+                
+            builder.Entity<Product>()
                 .HasKey(p => p.Id);
-
+                
             builder.Entity<Product>()
                 .Property(p => p.Id)
                 .IsRequired()
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-
+                
             builder.Entity<Product>()
                 .Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(60)
                 .HasColumnName("name");
-
+                
             builder.Entity<Product>()
                 .Property(p => p.UnitOfMeasurement)
                 .IsRequired()
@@ -38,40 +40,54 @@ namespace basic_delivery_api.Persistence.Contexts
                 .HasColumnName("unit_of_measurement");
 
             builder.Entity<Sale>()
-                .ToTable("sales")
+                .ToTable("sales");
+                
+            builder.Entity<Sale>()
                 .HasKey(s => s.Id);
-
+                
             builder.Entity<Sale>()
                 .Property(s => s.Id)
                 .IsRequired()
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-
+                
             builder.Entity<Sale>()
                 .Property(s => s.SaleDate)
                 .IsRequired()
                 .HasColumnName("sale_date");
-
+                
             builder.Entity<Sale>()
                 .Property(s => s.TotalAmount)
                 .IsRequired()
                 .HasColumnName("total_amount");
 
-            builder.Entity<SaleItem>()
-                .ToTable("sale_items")
-                .HasKey(si => si.Id);
+            builder.Entity<Sale>()
+                .Property(s => s.ShippingCost)
+                .IsRequired()
+                .HasColumnName("shipping_cost");
 
+            builder.Entity<Sale>()
+                .Property(s => s.ZipCode)
+                .IsRequired()
+                .HasColumnName("zip_code");
+
+            builder.Entity<SaleItem>()
+                .ToTable("sale_items");
+                
+            builder.Entity<SaleItem>()
+                .HasKey(si => si.Id);
+                
             builder.Entity<SaleItem>()
                 .Property(si => si.Id)
                 .IsRequired()
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-
+                
             builder.Entity<SaleItem>()
                 .Property(si => si.ProductId)
                 .IsRequired()
                 .HasColumnName("product_id");
-
+                
             builder.Entity<SaleItem>()
                 .Property(si => si.Quantity)
                 .IsRequired()
@@ -81,7 +97,7 @@ namespace basic_delivery_api.Persistence.Contexts
                 .Property(si => si.UnitPrice)
                 .IsRequired()
                 .HasColumnName("unit_price");
-
+            
             builder.Entity<SaleItem>()
                 .Property(si => si.SaleId)
                 .IsRequired()

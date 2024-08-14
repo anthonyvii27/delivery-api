@@ -9,4 +9,6 @@ public interface IProductRepository
     Task<Product> FindByIdAsync(int id);
     void Update(Product product);
     void Remove(Product product);
+    Task<bool> HasAssociatedSalesAsync(int id);
+    Task<IEnumerable<Product>> GetProductsByIdsAsync(IEnumerable<int> productIds);
 }

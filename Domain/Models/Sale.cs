@@ -1,18 +1,17 @@
-using System;
-using System.Collections.Generic;
-
 namespace basic_delivery_api.Domain.Models
 {
     public class Sale
     {
         public int Id { get; set; }
         public DateTime SaleDate { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal TotalAmount { get; private set; }
+        public decimal ShippingCost { get; set; }
+        public string ZipCode { get; set; }
         public ICollection<SaleItem> SaleItems { get; set; }
         
         public void CalculateTotalAmount()
         {
-            TotalAmount = SaleItems.Sum(si => si.Quantity * si.UnitPrice);
+            TotalAmount = SaleItems.Sum(si => si.Quantity * si.UnitPrice) + ShippingCost;
         }
     }
 

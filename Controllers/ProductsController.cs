@@ -26,8 +26,8 @@ namespace basic_delivery_api.Controllers
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll()
         {
             var products = await _productService.ListAsync();
-            var response = _mapper.Map<IEnumerable<ProductDto>>(products);
-            return Ok(response);
+            var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products);
+            return Ok(productDtos);
         }
 
         /// <summary>
@@ -35,11 +35,11 @@ namespace basic_delivery_api.Controllers
         /// </summary>
         /// <param name="id">The ID of the product to retrieve.</param>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<ProductDto>> GetById(int id)
         {
             var product = await _productService.FindByIdAsync(id);
             if (product == null)
-                return NotFound($"Product with ID {id} not found.");
+                return NotFound(new { Message = $"Product with ID {id} not found." });
 
             var productDto = _mapper.Map<ProductDto>(product);
             return Ok(productDto);
@@ -59,7 +59,7 @@ namespace basic_delivery_api.Controllers
             var result = await _productService.Create(product);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return BadRequest(new { Message = result.Message });
 
             var productResponse = _mapper.Map<ProductDto>(result.Product);
             return CreatedAtAction(nameof(GetById), new { id = result.Product.Id }, productResponse);
@@ -78,13 +78,13 @@ namespace basic_delivery_api.Controllers
 
             var currentProduct = await _productService.FindByIdAsync(id);
             if (currentProduct == null)
-                return NotFound($"Product with ID {id} not found.");
+                return NotFound(new { Message = $"Product with ID {id} not found." });
 
             _mapper.Map(body, currentProduct);
             var result = await _productService.Update(id, currentProduct);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return BadRequest(new { Message = result.Message });
 
             var productResponse = _mapper.Map<ProductDto>(result.Product);
             return Ok(productResponse);
@@ -97,10 +97,15 @@ namespace basic_delivery_api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            if (await _productService.HasAssociatedSalesAsync(id))
+            {
+                return Conflict(new { Message = "Cannot delete the product as it has associated sale items." });
+            }
+
             var result = await _productService.Delete(id);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return BadRequest(new { Message = result.Message });
 
             return NoContent();
         }
