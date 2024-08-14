@@ -13,7 +13,11 @@ namespace basic_delivery_api.Controllers
             _context = context;
             _logger = logger;
         }
-
+        
+        /// <summary>
+        /// Check the health status of the API.
+        /// </summary>
+        /// <returns>Health status of the API.</returns>
         [HttpGet("health")]
         public async Task<IActionResult> GetHealthStatus()
         {
