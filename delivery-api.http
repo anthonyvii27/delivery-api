@@ -1,18 +1,18 @@
 ### Health Check
-GET http://localhost:5183/api/v1/HealthCheck/health
+GET http://localhost:8080/api/v1/HealthCheck/health
 Accept: application/json
 
 ### Get All Products
-GET http://localhost:5183/api/v1/Products
+GET http://localhost:8080/api/v1/Products
 Accept: application/json
 
 ### Get Product by ID
 @getProductId = 1
-GET http://localhost:5183/api/v1/Products/{{getProductId}}
+GET http://localhost:8080/api/v1/Products/{{getProductId}}
 Accept: application/json
 
 ### Create New Product
-POST http://localhost:5183/api/v1/Products
+POST http://localhost:8080/api/v1/Products
 Content-Type: application/json
 
 {
@@ -23,7 +23,7 @@ Content-Type: application/json
 
 ### Update Product
 @updateProductId = 1
-PUT http://localhost:5183/api/v1/Products/{{updateProductId}}
+PUT http://localhost:8080/api/v1/Products/{{updateProductId}}
 Content-Type: application/json
 
 {
@@ -34,20 +34,20 @@ Content-Type: application/json
 
 ### Delete Product
 @deleteProductId = 1
-DELETE http://localhost:5183/api/v1/Products/{{deleteProductId}}
+DELETE http://localhost:8080/api/v1/Products/{{deleteProductId}}
 Accept: application/json
 
 ### Get All Sales
-GET http://localhost:5183/api/v1/Sales
+GET http://localhost:8080/api/v1/Sales
 Accept: application/json
 
 ### Get Sale by ID
 @getSaleId = 1
-GET http://localhost:5183/api/v1/Sales/{{getSaleId}}
+GET http://localhost:8080/api/v1/Sales/{{getSaleId}}
 Accept: application/json
 
 ### Create New Sale
-POST http://localhost:5183/api/v1/Sales
+POST http://localhost:8080/api/v1/Sales
 Content-Type: application/json
 
 {
@@ -67,5 +67,5 @@ Content-Type: application/json
 
 ### Delete Sale
 @deleteSaleId = 1
-DELETE http://localhost:5183/api/v1/Sales/{{deleteSaleId}}
+DELETE http://localhost:8080/api/v1/Sales/{{deleteSaleId}}
 Accept: application/json

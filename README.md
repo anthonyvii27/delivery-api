@@ -3,6 +3,24 @@
 Welcome to the Delivery API! This API is a solution for managing products and sales in your application. Built with .NET, it provides a RESTful interface for creating and managing products and processing sales transactions.
 This document provides an overview of the Delivery API endpoints, including detailed descriptions, request parameters, and response formats. The API includes endpoints for health checks, managing products, and handling sales.
 
+---
+
+## How to Run
+
+1. Clone the repository:
+   ```shell
+   git clone https://github.com/anthonyvii27/delivery-api
+   ```
+
+2. Run the command to start the containerized environment:
+   ```shell
+   make compose-up-v2
+   ```
+
+3. The API will be running on port `:8080` on your computer.
+4. Optionally, in the root of this repository, there is a file named `delivery-api.http` that provides an easy-to-use interface for executing the implemented endpoints.
+
+---
 
 ## Endpoints
 
