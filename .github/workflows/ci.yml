@@ -24,9 +24,9 @@ jobs:
       - name: Build Docker Image
         run: |
           #!/bin/bash
-            
+
           IMAGE_NAME=delivery
-            
-          docker build -t $IMAGE_NAME .
-            
+          IMAGE_TAG=latest
+
+          docker build -t $IMAGE_NAME:$IMAGE_TAG .
           docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
