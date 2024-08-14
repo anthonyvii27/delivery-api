@@ -57,24 +57,15 @@ namespace basic_delivery_api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
-            
+
             if (body.SaleItems == null || !body.SaleItems.Any())
                 return BadRequest(new { Message = "At least one SaleItem is required." });
 
-            var productIds = body.SaleItems.Select(si => si.ProductId).Distinct();
-    
-            var products = await _productService.GetProductsByIdsAsync(productIds);
-            var productIdsInDb = products.Select(p => p.Id);
-
-            if (productIds.Except(productIdsInDb).Any())
-                return BadRequest(new { Message = "One or more products in the SaleItems do not exist." });
-
-            var shippingCost = await _shippingService.CalculateShippingCostAsync(body.ZipCode);
-
+            // Prepare Sale object
             var sale = _mapper.Map<Sale>(body);
-            sale.ShippingCost = shippingCost;
 
-            var result = await _saleService.Create(sale);
+            // Delegate the responsibility of setting unit prices and calculating total amount to the service
+            var result = await _saleService.Create(sale, body.ZipCode);
 
             if (!result.Success)
                 return BadRequest(new { Message = result.Message });
@@ -82,6 +73,7 @@ namespace basic_delivery_api.Controllers
             var saleResponse = _mapper.Map<SaleRequest>(result.Sale);
             return CreatedAtAction(nameof(GetById), new { id = result.Sale.Id }, saleResponse);
         }
+
 
         /// <summary>
         /// Deletes a sale by its ID.

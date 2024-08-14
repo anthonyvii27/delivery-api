@@ -4,14 +4,14 @@ namespace basic_delivery_api.Domain.Models
     {
         public int Id { get; set; }
         public DateTime SaleDate { get; set; }
-        public decimal TotalAmount { get; private set; }
+        public decimal TotalAmount { get; set; }
         public decimal ShippingCost { get; set; }
         public string ZipCode { get; set; }
-        public ICollection<SaleItem> SaleItems { get; set; }
-        
+        public List<SaleItem> SaleItems { get; set; } = new List<SaleItem>();
+
         public void CalculateTotalAmount()
         {
-            TotalAmount = SaleItems.Sum(si => si.Quantity * si.UnitPrice) + ShippingCost;
+            TotalAmount = SaleItems.Sum(si => si.UnitPrice * si.Quantity) + ShippingCost;
         }
     }
 

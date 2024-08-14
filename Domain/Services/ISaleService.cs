@@ -7,7 +7,7 @@ namespace basic_delivery_api.Domain.Services
     {
         Task<IEnumerable<Sale>> ListAsync();
         Task<Sale?> FindByIdAsync(int id);
-        Task<CreateSaleResponse> Create(Sale sale);
+        Task<CreateSaleResponse> Create(Sale sale, string zipCode);
         Task<DeleteSaleResponse> Delete(int id);
     }
 }

@@ -39,23 +39,29 @@ namespace basic_delivery_api.Persistence.Contexts
                 .HasConversion<byte>()
                 .HasColumnName("unit_of_measurement");
 
+            builder.Entity<Product>()
+                .Property(p => p.Price)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)")
+                .HasColumnName("price");
+
             builder.Entity<Sale>()
                 .ToTable("sales");
-                
+
             builder.Entity<Sale>()
                 .HasKey(s => s.Id);
-                
+
             builder.Entity<Sale>()
                 .Property(s => s.Id)
                 .IsRequired()
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-                
+
             builder.Entity<Sale>()
                 .Property(s => s.SaleDate)
                 .IsRequired()
                 .HasColumnName("sale_date");
-                
+
             builder.Entity<Sale>()
                 .Property(s => s.TotalAmount)
                 .IsRequired()
@@ -73,21 +79,21 @@ namespace basic_delivery_api.Persistence.Contexts
 
             builder.Entity<SaleItem>()
                 .ToTable("sale_items");
-                
+
             builder.Entity<SaleItem>()
                 .HasKey(si => si.Id);
-                
+
             builder.Entity<SaleItem>()
                 .Property(si => si.Id)
                 .IsRequired()
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-                
+
             builder.Entity<SaleItem>()
                 .Property(si => si.ProductId)
                 .IsRequired()
                 .HasColumnName("product_id");
-                
+
             builder.Entity<SaleItem>()
                 .Property(si => si.Quantity)
                 .IsRequired()
@@ -96,8 +102,9 @@ namespace basic_delivery_api.Persistence.Contexts
             builder.Entity<SaleItem>()
                 .Property(si => si.UnitPrice)
                 .IsRequired()
+                .HasColumnType("decimal(18,2)")
                 .HasColumnName("unit_price");
-            
+
             builder.Entity<SaleItem>()
                 .Property(si => si.SaleId)
                 .IsRequired()
