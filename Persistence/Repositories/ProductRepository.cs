@@ -34,7 +34,7 @@ namespace basic_delivery_api.Persistence.Repositories
             }
         }
 
-        public async Task<Product> FindByIdAsync(int id)
+        public async Task<Product?> FindByIdAsync(int id)
         {
             try
             {

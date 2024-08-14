@@ -47,14 +47,14 @@ namespace basic_delivery_api.Controllers
         /// <summary>
         /// Creates a new product.
         /// </summary>
-        /// <param name="resource">The product data to create.</param>
+        /// <param name="body">The product data to create.</param>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateProductRequest resource)
+        public async Task<IActionResult> Create([FromBody] CreateProductRequest body)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
 
-            var product = _mapper.Map<Product>(resource);
+            var product = _mapper.Map<Product>(body);
             var result = await _productService.Create(product);
 
             if (!result.Success)
