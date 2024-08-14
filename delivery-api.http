@@ -1,0 +1,73 @@
+### Health Check
+GET http://localhost:5183/api/v1/HealthCheck/health
+Accept: application/json
+
+### Get All Products
+GET http://localhost:5183/api/v1/Products
+Accept: application/json
+
+### Get Product by ID
+@getProductId = 1
+GET http://localhost:5183/api/v1/Products/{{getProductId}}
+Accept: application/json
+
+### Create New Product
+POST http://localhost:5183/api/v1/Products
+Content-Type: application/json
+
+{
+  "name": "New Product",
+  "unitOfMeasurement": "1",
+  "price": 29.99
+}
+
+### Update Product
+@updateProductId = 1
+PUT http://localhost:5183/api/v1/Products/{{updateProductId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Product",
+  "unitOfMeasurement": "2",
+  "price": 39.99
+}
+
+### Delete Product
+@deleteProductId = 1
+DELETE http://localhost:5183/api/v1/Products/{{deleteProductId}}
+Accept: application/json
+
+### Get All Sales
+GET http://localhost:5183/api/v1/Sales
+Accept: application/json
+
+### Get Sale by ID
+@getSaleId = 1
+GET http://localhost:5183/api/v1/Sales/{{getSaleId}}
+Accept: application/json
+
+### Create New Sale
+POST http://localhost:5183/api/v1/Sales
+Content-Type: application/json
+
+{
+  "saleDate": "2024-08-15T14:30:00Z",
+  "zipCode": "22021-010",
+  "saleItems": [
+    {
+      "productId": 12,
+      "quantity": 2,
+      "unitPrice": 120.00
+    },
+    {
+      "productId": 1,
+      "quantity": 1,
+      "unitPrice": 30.00
+    }
+  ]
+}
+
+### Delete Sale
+@deleteSaleId = 1
+DELETE http://localhost:5183/api/v1/Products/{{deleteSaleId}}
+Accept: application/json
