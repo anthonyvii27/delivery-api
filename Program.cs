@@ -1,5 +1,6 @@
 using basic_delivery_api.Domain.Services;
 using basic_delivery_api.Mapping;
+using basic_delivery_api.Middlewares;
 using basic_delivery_api.Persistence.Contexts;
 using basic_delivery_api.Persistence.Repositories;
 using basic_delivery_api.Repositories;
@@ -7,6 +8,10 @@ using basic_delivery_api.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 
 builder.Services.AddControllers();
 
@@ -42,6 +47,8 @@ else
 }
 
 // app.UseHttpsRedirection();
+
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 app.UseRouting();
 
