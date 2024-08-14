@@ -17,15 +17,15 @@ public class ShippingService : IShippingService
     {
         var location = await GetLocationByZipCodeAsync(zipCode);
         if (location == null)
-            return 40.00m; // Default to R$ 40.00 if location not found
+            return 40.00m;
 
         if (location.State == StoreState)
         {
             if (location.City == StoreCity)
-                return 10.00m; // Same city
-            return 20.00m; // Same state, other cities
+                return 10.00m;
+            return 20.00m;
         }
-        return 40.00m; // Other states
+        return 40.00m;
     }
 
     private async Task<Location> GetLocationByZipCodeAsync(string zipCode)
