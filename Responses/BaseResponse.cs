@@ -1,4 +1,4 @@
-namespace basic_delivery_api.Domain.Services.Communication;
+namespace basic_delivery_api.Responses;
 
 public abstract class BaseResponse
 {

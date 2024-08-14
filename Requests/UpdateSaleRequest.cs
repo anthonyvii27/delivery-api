@@ -1,14 +1,14 @@
-namespace basic_delivery_api.Dto
+namespace basic_delivery_api.Request
 {
-    public class UpdateSaleDto
+    public class UpdateSaleRequest
     {
         public DateTime SaleDate { get; set; }
         public decimal ShippingCost { get; set; }
         public string ZipCode { get; set; }
-        public IEnumerable<UpdateSaleItemDto> SaleItems { get; set; }
+        public IEnumerable<UpdateSaleItemRequest> SaleItems { get; set; }
     }
 
-    public class UpdateSaleItemDto
+    public class UpdateSaleItemRequest
     {
         public int Id { get; set; }
         public int ProductId { get; set; }

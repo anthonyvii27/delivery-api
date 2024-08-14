@@ -1,7 +1,7 @@
 using AutoMapper;
 using basic_delivery_api.Domain.Models;
 using basic_delivery_api.Domain.Services;
-using basic_delivery_api.Dto;
+using basic_delivery_api.Request;
 using basic_delivery_api.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,10 +26,10 @@ namespace basic_delivery_api.Controllers
         /// Retrieves all sales.
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SaleDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<SaleRequest>>> GetAll()
         {
             var sales = await _saleService.ListAsync();
-            var saleDtos = _mapper.Map<IEnumerable<SaleDto>>(sales);
+            var saleDtos = _mapper.Map<IEnumerable<SaleRequest>>(sales);
             return Ok(saleDtos);
         }
 
@@ -38,13 +38,13 @@ namespace basic_delivery_api.Controllers
         /// </summary>
         /// <param name="id">The ID of the sale to retrieve.</param>
         [HttpGet("{id}")]
-        public async Task<ActionResult<SaleDto>> GetById(int id)
+        public async Task<ActionResult<SaleRequest>> GetById(int id)
         {
             var sale = await _saleService.FindByIdAsync(id);
             if (sale == null)
                 return NotFound(new { Message = $"Sale with ID {id} not found." });
 
-            var saleDto = _mapper.Map<SaleDto>(sale);
+            var saleDto = _mapper.Map<SaleRequest>(sale);
             return Ok(saleDto);
         }
 
@@ -53,7 +53,7 @@ namespace basic_delivery_api.Controllers
         /// </summary>
         /// <param name="body">The sale data to create.</param>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateSaleDto body)
+        public async Task<IActionResult> Create([FromBody] CreateSaleRequest body)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -74,13 +74,12 @@ namespace basic_delivery_api.Controllers
             var sale = _mapper.Map<Sale>(body);
             sale.ShippingCost = shippingCost;
 
-            // Cria a venda
             var result = await _saleService.Create(sale);
 
             if (!result.Success)
                 return BadRequest(new { Message = result.Message });
 
-            var saleResponse = _mapper.Map<SaleDto>(result.Sale);
+            var saleResponse = _mapper.Map<SaleRequest>(result.Sale);
             return CreatedAtAction(nameof(GetById), new { id = result.Sale.Id }, saleResponse);
         }
 
@@ -91,7 +90,7 @@ namespace basic_delivery_api.Controllers
         /// <param name="id">The ID of the sale to update.</param>
         /// <param name="body">The updated sale data.</param>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateSaleDto body)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateSaleRequest body)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -113,7 +112,7 @@ namespace basic_delivery_api.Controllers
             if (!result.Success)
                 return BadRequest(new { Message = result.Message });
 
-            var saleResponse = _mapper.Map<SaleDto>(result.Sale);
+            var saleResponse = _mapper.Map<SaleRequest>(result.Sale);
             return Ok(saleResponse);
         }
 

@@ -1,13 +1,13 @@
-namespace basic_delivery_api.Dto;
+namespace basic_delivery_api.Request;
 
-public class CreateSaleDto
+public class CreateSaleRequest
 {
     public DateTime SaleDate { get; set; }
     public string ZipCode { get; set; }
-    public IEnumerable<CreateSaleItemDto> SaleItems { get; set; }
+    public IEnumerable<CreateSaleItemRequest> SaleItems { get; set; }
 }
 
-public class CreateSaleItemDto
+public class CreateSaleItemRequest
 {
     public int ProductId { get; set; }
     public int Quantity { get; set; }

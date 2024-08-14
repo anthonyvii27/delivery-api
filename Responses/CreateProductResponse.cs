@@ -1,7 +1,6 @@
 using basic_delivery_api.Domain.Models;
-using basic_delivery_api.Resources;
 
-namespace basic_delivery_api.Domain.Services.Communication;
+namespace basic_delivery_api.Responses;
 
 public class CreateProductResponse: BaseResponse
 {

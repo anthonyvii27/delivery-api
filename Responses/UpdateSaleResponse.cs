@@ -1,6 +1,6 @@
 using basic_delivery_api.Domain.Models;
 
-namespace basic_delivery_api.Domain.Services.Communication;
+namespace basic_delivery_api.Responses;
 
 public class UpdateSaleResponse: BaseResponse
 {

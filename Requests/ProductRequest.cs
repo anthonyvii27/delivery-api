@@ -1,6 +1,6 @@
-namespace basic_delivery_api.Resources;
+namespace basic_delivery_api.Request;
 
-public class ProductDto
+public class ProductRequest
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -1,6 +1,6 @@
 using basic_delivery_api.Domain.Models;
 using basic_delivery_api.Domain.Services;
-using basic_delivery_api.Domain.Services.Communication;
+using basic_delivery_api.Responses;
 using basic_delivery_api.Repositories;
 
 namespace basic_delivery_api.Services;

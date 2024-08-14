@@ -1,5 +1,5 @@
 using basic_delivery_api.Domain.Models;
-using basic_delivery_api.Domain.Services.Communication;
+using basic_delivery_api.Responses;
 
 namespace basic_delivery_api.Domain.Services
 {
