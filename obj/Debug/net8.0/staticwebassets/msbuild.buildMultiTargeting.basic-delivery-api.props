@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/basic-delivery-api.props" />
+</Project>
